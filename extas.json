@@ -1,0 +1,145 @@
+{
+  "name": "deflou/core",
+  "repositories": [
+    {
+      "name": "applications_samples",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\applications\\ApplicationSample",
+      "aliases": ["applicationsSamples"]
+    },
+    {
+      "name": "applications",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\applications\\ApplicationSample",
+      "aliases": ["applications"]
+    },
+    {
+      "name": "activities_samples",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\applications\\activities\\ActivitySample",
+      "aliases": ["activitiesSamples"]
+    },
+    {
+      "name": "activities",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\applications\\activities\\Activity",
+      "aliases": ["activities"]
+    },
+    {
+      "name": "triggers_samples",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\triggers\\TriggerSample",
+      "aliases": ["triggersSamples"]
+    },
+    {
+      "name": "triggers",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\triggers\\Trigger",
+      "aliases": ["triggers"]
+    },
+    {
+      "name": "triggers_state_histories",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\triggers\\TriggerStateHistory",
+      "aliases": ["triggersStateHistories"]
+    },
+    {
+      "name": "triggers_responses",
+      "scope": "deflou",
+      "pk": "name",
+      "class": "extas\\components\\triggers\\TriggerResponse",
+      "aliases": ["triggersResponses"]
+    }
+  ],
+  "plugins_install": [
+    {
+      "repository": "applicationsSamples",
+      "name": "application sample",
+      "section": "deflou_applications_samples"
+    },
+    {
+      "repository": "applications",
+      "name": "application",
+      "section": "deflou_applications"
+    },
+    {
+      "repository": "activitiesSamples",
+      "name": "activity sample",
+      "section": "deflou_activities_samples"
+    },
+    {
+      "repository": "activities",
+      "name": "activity",
+      "section": "deflou_activities"
+    },
+    {
+      "repository": "triggersSamples",
+      "name": "trigger sample",
+      "section": "deflou_triggers_samples"
+    },
+    {
+      "repository": "triggers",
+      "name": "trigger",
+      "section": "deflou_triggers"
+    },
+    {
+      "repository": "triggersStateHistories",
+      "name": "trigger state history",
+      "section": "deflou_state_histories"
+    },
+    {
+      "repository": "triggersResponses",
+      "name": "trigger response",
+      "section": "deflou_triggers_responses"
+    }
+  ],
+  "plugins": [
+    {
+      "class": "extas\\components\\plugins\\repositories\\PluginFieldSampleName",
+      "stage": [
+        "extas.applications.create.before",
+        "extas.activities.create.before",
+        "extas.triggers.create.before",
+        "extas.fields.create.before",
+        "extas.fields_types.create.before"
+      ]
+    },
+    {
+      "class": "extas\\components\\plugins\\repositories\\PluginFieldUuid",
+      "stage": [
+        "extas.triggers_responses.create.before",
+        "extas.anchors.create.before"
+      ]
+    }
+  ],
+  "extensions": [
+    {
+      "class": "extas\\components\\extensions\\ExtensionHasCondition",
+      "interface": "extas\\interfaces\\extensions\\IExtensionHasCondition",
+      "methods": ["isConditionTrue", "getCondition", "getConditionName", "setConditionName"],
+      "subject": "extas.sample.parameter"
+    },
+    {
+      "class": "extas\\components\\extensions\\ExtensionRepositoryDescription",
+      "interface": "extas\\interfaces\\extensions\\IExtensionRepositoryDescription",
+      "subject": "*",
+      "methods": [
+        "applicationsSamples",
+        "applications",
+        "activitiesSamples",
+        "activities",
+        "triggersSamples",
+        "triggers",
+        "triggersStateHistories",
+        "triggersResponses"
+      ]
+    }
+  ]
+}
