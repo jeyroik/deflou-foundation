@@ -238,6 +238,11 @@ class DeflouTest extends TestCase
     {
         $this->registerPluginForEventEquip();
         $this->createSnuffPlugin(PluginException::class, [IStageAfterEventEquipment::NAME]);
+        $this->getMagicClass('applications')->create(new Application([
+            Application::FIELD__NAME => 'test.app',
+            Application::FIELD__CLASS => MiscApplication::class,
+            Application::FIELD__SAMPLE_NAME => 'test.app.sample'
+        ]));
 
         $output = $this->deflou->dispatchEvent(new Input([Deflou::INPUT__SOURCE => 'test']));
 
@@ -260,14 +265,14 @@ class DeflouTest extends TestCase
     {
         $this->registerPluginsForCollectTriggers();
         $this->getMagicClass('activities')->create(new Activity([
-            Activity::FIELD__NAME => 'test action',
+            Activity::FIELD__NAME => 'test.action',
             Activity::FIELD__SAMPLE_NAME => 'testAction',
-            Activity::FIELD__APPLICATION_NAME => 'test app'
+            Activity::FIELD__APPLICATION_NAME => 'test.app'
         ]));
         $this->getMagicClass('applications')->create(new Application([
-            Application::FIELD__NAME => 'test app',
+            Application::FIELD__NAME => 'test.app',
             Application::FIELD__CLASS => MiscApplication::class,
-            Application::FIELD__SAMPLE_NAME => 'test app sample'
+            Application::FIELD__SAMPLE_NAME => 'test.app.sample'
         ]));
 
         $deflou = new class ([
@@ -280,10 +285,10 @@ class DeflouTest extends TestCase
                 unset($action[IApplicationAction::FIELD__ID], $action[IApplicationAction::FIELD__CREATED_AT]);
                 $this->test->assertEquals(
                     [
-                        ApplicationAction::FIELD__NAME => 'test action',
+                        ApplicationAction::FIELD__NAME => 'test.action',
                         ApplicationAction::FIELD__SAMPLE_NAME => 'testAction',
-                        ApplicationAction::FIELD__APPLICATION_NAME => 'test app',
-                        ApplicationAction::FIELD__APPLICATION_SAMPLE_NAME => 'test app sample',
+                        ApplicationAction::FIELD__APPLICATION_NAME => 'test.app',
+                        ApplicationAction::FIELD__APPLICATION_SAMPLE_NAME => 'test.app.sample',
                         ApplicationAction::FIELD__PARAMETERS => [
                             ApplicationAction::PARAM__SOURCE => [
                                 ISampleParameter::FIELD__NAME => ApplicationAction::PARAM__SOURCE,
@@ -309,14 +314,14 @@ class DeflouTest extends TestCase
     {
         $this->registerPluginsForDispatchTrigger();
         $this->getMagicClass('activities')->create(new Activity([
-            Activity::FIELD__NAME => 'test action',
+            Activity::FIELD__NAME => 'test.action',
             Activity::FIELD__SAMPLE_NAME => 'testAction',
-            Activity::FIELD__APPLICATION_NAME => 'test app'
+            Activity::FIELD__APPLICATION_NAME => 'test.app'
         ]));
         $this->getMagicClass('applications')->create(new Application([
-            Application::FIELD__NAME => 'test app',
+            Application::FIELD__NAME => 'test.app',
             Application::FIELD__CLASS => MiscApplication::class,
-            Application::FIELD__SAMPLE_NAME => 'test app sample'
+            Application::FIELD__SAMPLE_NAME => 'test.app.sample'
         ]));
 
         $output = $this->deflou->dispatchEvent(new Input());

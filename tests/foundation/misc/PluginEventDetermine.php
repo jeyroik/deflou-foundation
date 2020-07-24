@@ -22,7 +22,8 @@ class PluginEventDetermine extends Plugin implements IStageEventDetermine
     {
         $request->addParameterByValue($request::PARAM__EVENT, new Activity([
             Activity::FIELD__NAME => 'test.event',
-            Activity::FIELD__SAMPLE_NAME => 'testEvent'
+            Activity::FIELD__SAMPLE_NAME => 'testEvent',
+            Activity::FIELD__APPLICATION_NAME => 'test.app'
         ]));
 
         return $request;
