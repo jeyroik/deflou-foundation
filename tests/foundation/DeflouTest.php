@@ -89,18 +89,12 @@ class DeflouTest extends TestCase
                 $this->test->assertTrue(
                     $appRequest->hasParameter(IApplicationRequest::PARAM__EVENT_APPLICATION)
                 );
+
+                return $appRequest;
             }
         };
 
-        $this->createSnuffPlugin(PluginExecutable::class, [IStageApplicationDetermine::NAME]);
-        PluginExecutable::addExecute(
-            function($plugin, &$operated, IApplicationRequest $appRequest) {
-                $operated = true;
-                $appRequest->addParameterByValue(IApplicationRequest::PARAM__EVENT_APPLICATION, 'test');
-                return $appRequest;
-            },
-            true
-        );
+        $this->createSnuffPlugin(PluginApplicationDetermine::class, [IStageApplicationDetermine::NAME]);
 
         $output = $deflou->dispatchEvent(new Input());
 
@@ -125,26 +119,10 @@ class DeflouTest extends TestCase
             }
         };
 
-        $this->createSnuffPlugin(PluginExecutable::class, [IStageApplicationDetermine::NAME]);
-        $this->createSnuffPlugin(PluginExecutable::class, [IStageEventDetermine::NAME]);
-        PluginExecutable::addExecute(
-            function($plugin, &$operated, IApplicationRequest $appRequest) {
-                $operated = true;
-                if ($appRequest->hasParameter(IApplicationRequest::PARAM__EVENT_APPLICATION)) {
-                    $appRequest->addParameterByValue(IApplicationRequest::PARAM__EVENT, 'test');
-                } else {
-                    $appRequest->addParameterByValue(IApplicationRequest::PARAM__EVENT_APPLICATION, 'test');
-                }
-                return $appRequest;
-            },
-            true
-        );
+        $this->registerPluginForDetermine();
 
         $output = $deflou->dispatchEvent(new Input());
 
-        /**
-         * Должно ругнуться на то, что пытается использоваться метод не объекта (т.к. event сейчас - строка).
-         */
         $this->assertTrue($output->hasErrors());
     }
 
