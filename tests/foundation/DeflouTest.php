@@ -272,7 +272,8 @@ class DeflouTest extends TestCase
         $this->getMagicClass('activities')->create(new Activity([
             Activity::FIELD__NAME => 'test.action',
             Activity::FIELD__SAMPLE_NAME => 'testAction',
-            Activity::FIELD__APPLICATION_NAME => 'test.app'
+            Activity::FIELD__APPLICATION_NAME => 'test.app',
+            Activity::FIELD__TYPE => Activity::TYPE__ACTION
         ]));
         $this->getMagicClass('applications')->create(new Application([
             Application::FIELD__NAME => 'test.app',
@@ -321,7 +322,8 @@ class DeflouTest extends TestCase
         $this->getMagicClass('activities')->create(new Activity([
             Activity::FIELD__NAME => 'test.action',
             Activity::FIELD__SAMPLE_NAME => 'testAction',
-            Activity::FIELD__APPLICATION_NAME => 'test.app'
+            Activity::FIELD__APPLICATION_NAME => 'test.app',
+            Activity::FIELD__TYPE => Activity::TYPE__ACTION
         ]));
         $this->getMagicClass('applications')->create(new Application([
             Application::FIELD__NAME => 'test.app',
