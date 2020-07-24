@@ -20,6 +20,7 @@ use deflou\interfaces\stages\IStageEventDetermine;
 use deflou\interfaces\triggers\actions\IApplicationAction;
 use deflou\interfaces\triggers\events\IApplicationEvent;
 use deflou\interfaces\triggers\ITrigger;
+use Dotenv\Dotenv;
 use extas\components\plugins\PluginException;
 use extas\components\plugins\PluginExecutable;
 use extas\components\plugins\TSnuffPlugins;
@@ -51,7 +52,8 @@ class DeflouTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
+        $env = Dotenv::create(getcwd() . '/tests/');
+        $env->load();
         $this->deflou = new Deflou();
         $this->createSnuffDynamicRepositories([
             ['applications', 'name', Application::class],
