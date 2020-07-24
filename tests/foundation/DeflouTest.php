@@ -116,6 +116,8 @@ class DeflouTest extends TestCase
                 $this->test->assertTrue(
                     $appRequest->hasParameter(IApplicationRequest::PARAM__EVENT)
                 );
+
+                throw new \Exception('Expected exception');
             }
         };
 
@@ -124,6 +126,7 @@ class DeflouTest extends TestCase
         $output = $deflou->dispatchEvent(new Input());
 
         $this->assertTrue($output->hasErrors());
+        $this->assertEquals('Expected exception', $output->getMessage());
     }
 
     public function testUnknownEventSource()
@@ -194,23 +197,26 @@ class DeflouTest extends TestCase
                     $eventWithoutDynamicFields[ApplicationEvent::FIELD__CREATED_AT]
                 );
 
-                $this->test->assertEquals(
-                    [
-                        ApplicationEvent::FIELD__NAME => 'test event',
-                        ApplicationEvent::FIELD__SAMPLE_NAME => 'testEvent',
-                        ApplicationEvent::FIELD__APPLICATION_NAME => 'test app',
-                        ApplicationEvent::FIELD__APPLICATION_SAMPLE_NAME => 'test app sample',
-                        ApplicationEvent::FIELD__PARAMETERS => [
-                            ApplicationEvent::PARAM__SOURCE => [
-                                ISampleParameter::FIELD__NAME => ApplicationEvent::PARAM__SOURCE,
-                                ISampleParameter::FIELD__VALUE => $input->__toArray()
-                            ]
-                        ],
-                        ApplicationEvent::FIELD__SOURCE => 'test'
+                $need = [
+                    ApplicationEvent::FIELD__NAME => 'test event',
+                    ApplicationEvent::FIELD__SAMPLE_NAME => 'testEvent',
+                    ApplicationEvent::FIELD__APPLICATION_NAME => 'test app',
+                    ApplicationEvent::FIELD__APPLICATION_SAMPLE_NAME => 'test app sample',
+                    ApplicationEvent::FIELD__PARAMETERS => [
+                        ApplicationEvent::PARAM__SOURCE => [
+                            ISampleParameter::FIELD__NAME => ApplicationEvent::PARAM__SOURCE,
+                            ISampleParameter::FIELD__VALUE => $input->__toArray()
+                        ]
                     ],
+                    ApplicationEvent::FIELD__SOURCE => 'test'
+                ];
+
+                $this->test->assertEquals(
+                    $need,
                     $eventWithoutDynamicFields->__toArray(),
                     'Incorrect application event created: '
-                    . print_r($eventWithoutDynamicFields->__toArray(), true)
+                    . 'Wanted: ' . print_r($need, true)
+                    . 'Got: ' . print_r($eventWithoutDynamicFields->__toArray(), true)
                 );
 
                 return $event;
