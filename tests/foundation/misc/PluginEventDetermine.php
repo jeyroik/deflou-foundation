@@ -21,7 +21,7 @@ class PluginEventDetermine extends Plugin implements IStageEventDetermine
     public function __invoke(IApplicationRequest $request): IApplicationRequest
     {
         $request->addParameterByValue($request::PARAM__EVENT, new Activity([
-            Activity::FIELD__NAME => 'test_event',
+            Activity::FIELD__NAME => 'test.event',
             Activity::FIELD__SAMPLE_NAME => 'testEvent'
         ]));
 

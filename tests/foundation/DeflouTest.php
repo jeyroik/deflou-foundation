@@ -198,10 +198,10 @@ class DeflouTest extends TestCase
                 );
 
                 $need = [
-                    ApplicationEvent::FIELD__NAME => 'test event',
+                    ApplicationEvent::FIELD__NAME => 'test.event',
                     ApplicationEvent::FIELD__SAMPLE_NAME => 'testEvent',
-                    ApplicationEvent::FIELD__APPLICATION_NAME => 'test app',
-                    ApplicationEvent::FIELD__APPLICATION_SAMPLE_NAME => 'test app sample',
+                    ApplicationEvent::FIELD__APPLICATION_NAME => 'test.app',
+                    ApplicationEvent::FIELD__APPLICATION_SAMPLE_NAME => 'test.app.sample',
                     ApplicationEvent::FIELD__PARAMETERS => [
                         ApplicationEvent::PARAM__SOURCE => [
                             ISampleParameter::FIELD__NAME => ApplicationEvent::PARAM__SOURCE,
