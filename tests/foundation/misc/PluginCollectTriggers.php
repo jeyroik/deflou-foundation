@@ -22,7 +22,7 @@ class PluginCollectTriggers extends Plugin implements IStageCollectTriggers
     {
         $triggers = [
             new Trigger([
-                Trigger::FIELD__ACTION_NAME => 'test action'
+                Trigger::FIELD__ACTION_NAME => 'test.action'
             ])
         ];
     }

@@ -254,6 +254,11 @@ class DeflouTest extends TestCase
     {
         $this->registerPluginsForCollectTriggers();
         $this->createSnuffPlugin(PluginException::class, [IStageAfterCollectTriggers::NAME]);
+        $this->getMagicClass('applications')->create(new Application([
+            Application::FIELD__NAME => 'test.app',
+            Application::FIELD__CLASS => MiscApplication::class,
+            Application::FIELD__SAMPLE_NAME => 'test.app.sample'
+        ]));
 
         $output = $this->deflou->dispatchEvent(new Input());
 
