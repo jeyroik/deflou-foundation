@@ -11,11 +11,11 @@ use extas\interfaces\IItem;
  */
 interface IApplicationActionResponse extends IItem
 {
-    public const NAME = 'deflou.application.action.response';
+    public const SUBJECT = 'deflou.application.action.response';
 
     public const FIELD__APPLICATION_ACTION_ID = 'action_id';
-    public const FIELD__RESPONSE_STATUS = 'response_status';
-    public const FIELD__RESPONSE_BODY = 'response_body';
+    public const FIELD__STATUS = 'status';
+    public const FIELD__BODY = 'body';
 
     /**
      * @return string
@@ -25,10 +25,10 @@ interface IApplicationActionResponse extends IItem
     /**
      * @return int
      */
-    public function getResponseStatus(): int;
+    public function getStatus(): int;
 
     /**
      * @return string
      */
-    public function getResponseBody(): string;
+    public function getBody(): string;
 }

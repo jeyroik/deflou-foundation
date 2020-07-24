@@ -12,11 +12,12 @@ use deflou\interfaces\IInput;
 use deflou\interfaces\IOutput;
 use deflou\interfaces\servers\requests\IApplicationRequest;
 use deflou\interfaces\stages\IStageAfterActionRun;
+use deflou\interfaces\stages\IStageAfterCollectTriggers;
 use deflou\interfaces\stages\IStageAfterEventEquipment;
 use deflou\interfaces\stages\IStageApplicationDetermine;
 use deflou\interfaces\stages\IStageBeforeActionRun;
 use deflou\interfaces\stages\IStageBeforeEventEquipment;
-use deflou\interfaces\stages\IStageCollectTriggersByAppEvent;
+use deflou\interfaces\stages\IStageCollectTriggers;
 use deflou\interfaces\stages\IStageEventDetermine;
 use deflou\interfaces\triggers\actions\IApplicationAction;
 use deflou\interfaces\triggers\actions\IApplicationActionResponse;
@@ -25,7 +26,6 @@ use deflou\interfaces\triggers\ITrigger;
 use extas\components\exceptions\MissedOrUnknown;
 use extas\components\Item;
 use extas\interfaces\samples\parameters\ISampleParameter;
-use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -55,14 +55,14 @@ class Deflou extends Item implements IDeflou
             $appEvent = $this->createApplicationEvent($appRequest, $input);
             $appEvent = $this->equipApplicationEvent($appEvent);
 
-            $triggers = $this->collectTriggersByAppEvent($appEvent);
+            $triggers = $this->collectTriggers($appEvent);
 
             foreach($triggers as $trigger) {
                 $responses[] = $this->dispatchTrigger($trigger, $appEvent);
             }
 
             $output = $this->runSuccessResponse($output, $responses);
-        } catch (MissedOrUnknown $e) {
+        } catch (\Exception $e) {
             $output = $this->runFailedResponse($output, $responses, $e);
         }
 
@@ -180,13 +180,20 @@ class Deflou extends Item implements IDeflou
      * @param IApplicationEvent $appEvent
      * @return ITrigger[]
      */
-    protected function collectTriggersByAppEvent(IApplicationEvent $appEvent): array
+    protected function collectTriggers(IApplicationEvent $appEvent): array
     {
         $triggers = [];
 
-        foreach ($this->getPluginsByStage(IStageCollectTriggersByAppEvent::NAME) as $plugin) {
+        foreach ($this->getPluginsByStage(IStageCollectTriggers::NAME) as $plugin) {
             /**
-             * @var IStageCollectTriggersByAppEvent $plugin
+             * @var IStageCollectTriggers $plugin
+             */
+            $plugin($appEvent, $triggers);
+        }
+
+        foreach ($this->getPluginsByStage(IStageAfterCollectTriggers::NAME) as $plugin) {
+            /**
+             * @var IStageAfterCollectTriggers $plugin
              */
             $plugin($appEvent, $triggers);
         }
@@ -265,7 +272,7 @@ class Deflou extends Item implements IDeflou
 
     /**
      * @param IOutput $output
-     * @param ResponseInterface[] $responses
+     * @param IApplicationActionResponse[] $responses
      * @return IOutput
      */
     protected function runSuccessResponse(IOutput $output, array $responses)
@@ -275,16 +282,16 @@ class Deflou extends Item implements IDeflou
             $plugin($responses, $data);
         }
 
-        return $output->setMessage('Event dispatched')->setCode(200);
+        return $output->setMessage(static::MSG__SUCCESS)->setCode(200);
     }
 
     /**
      * @param IOutput $output
-     * @param ResponseInterface[] $responses
-     * @param MissedOrUnknown $e
+     * @param IApplicationActionResponse[] $responses
+     * @param \Exception $e
      * @return IOutput
      */
-    protected function runFailedResponse(IOutput $output, array $responses, MissedOrUnknown $e)
+    protected function runFailedResponse(IOutput $output, array $responses, \Exception $e)
     {
         $data = [];
         foreach ($this->getPluginsByStage('deflou.trigger.response.failed') as $plugin) {

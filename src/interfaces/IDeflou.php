@@ -12,6 +12,7 @@ use extas\interfaces\IItem;
 interface IDeflou extends IItem
 {
     public const INPUT__SOURCE = '__source__';
+    public const MSG__SUCCESS = 'Event dispatched';
 
     /**
      * @param IInput $input
