@@ -335,6 +335,7 @@ class DeflouTest extends TestCase
 
         $this->assertFalse($output->hasErrors());
         $this->assertEquals(Deflou::MSG__SUCCESS, $output->getMessage());
+        $this->assertEquals(200, $output->getCode());
     }
 
     protected function registerPluginForDetermine(): void

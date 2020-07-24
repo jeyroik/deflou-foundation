@@ -3,7 +3,6 @@ namespace deflou\components\applications\activities;
 
 use deflou\interfaces\applications\activities\IActivity;
 use deflou\interfaces\applications\activities\IHasEvent;
-use extas\components\exceptions\MissedOrUnknown;
 use extas\interfaces\repositories\IRepository;
 
 /**
