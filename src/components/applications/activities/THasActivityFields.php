@@ -32,7 +32,7 @@ trait THasActivityFields
                 $fields[$config[IField::FIELD__NAME]] = new Field($config);
             }
         } else {
-            if (!$this->hasFields($names)) {
+            if (!$this->hasFields(...$names)) {
                 throw new MissedOrUnknown('some fields');
             }
 
