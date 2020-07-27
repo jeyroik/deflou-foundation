@@ -7,12 +7,14 @@ use deflou\components\triggers\actions\THasApplicationAction;
 use deflou\components\triggers\events\ApplicationEvent;
 use deflou\components\triggers\events\THasApplicationEvent;
 use deflou\components\triggers\THasTrigger;
+use deflou\components\triggers\THasTriggerObject;
 use deflou\components\triggers\Trigger;
 use deflou\interfaces\triggers\actions\IApplicationAction;
 use deflou\interfaces\triggers\actions\IHasApplicationAction;
 use deflou\interfaces\triggers\events\IApplicationEvent;
 use deflou\interfaces\triggers\events\IHasApplicationEvent;
 
+use deflou\interfaces\triggers\IHasTriggerObject;
 use Dotenv\Dotenv;
 use extas\components\Item;
 use extas\components\plugins\TSnuffPlugins;
@@ -148,5 +150,21 @@ class TriggerTest extends TestCase
         $this->assertEquals('test', $response->getBody());
         $this->assertEquals(200, $response->getStatus());
         $this->assertEquals('is ok', $response->getActionId());
+    }
+
+    public function testHasTriggerObject()
+    {
+        $item = new class ([
+            IHasTriggerObject::FIELD__TRIGGER => new Trigger([Trigger::FIELD__NAME => 'test'])
+        ]) extends Item {
+            use THasTriggerObject;
+            protected function getSubjectForExtension(): string
+            {
+                return 'test';
+            }
+        };
+
+        $this->assertNotEmpty($item->getTrigger());
+        $this->assertEquals('test', $item->getTrigger()->getName());
     }
 }
