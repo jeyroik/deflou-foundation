@@ -46,9 +46,8 @@ class Deflou extends Item implements IDeflou
         $responses = [];
 
         try {
-            $appRequest = new ApplicationRequest([
-                ApplicationRequest::PARAM__DATA => $input->__toArray()
-            ]);
+            $appRequest = new ApplicationRequest();
+            $appRequest->addParameterByValue(ApplicationRequest::PARAM__DATA, $input->__toArray());
             $appRequest = $this->determineEventApplication($appRequest);
             $appRequest = $this->determineEvent($appRequest);
 
