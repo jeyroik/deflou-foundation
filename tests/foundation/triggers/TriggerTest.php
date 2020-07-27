@@ -2,6 +2,7 @@
 namespace tests\foundation\triggers;
 
 use deflou\components\triggers\actions\ApplicationAction;
+use deflou\components\triggers\actions\ApplicationActionResponse;
 use deflou\components\triggers\actions\THasApplicationAction;
 use deflou\components\triggers\events\ApplicationEvent;
 use deflou\components\triggers\events\THasApplicationEvent;
@@ -134,5 +135,18 @@ class TriggerTest extends TestCase
 
         $action = $item->getApplicationAction();
         $this->assertEquals('test.sample', $action->getApplicationSampleName());
+    }
+
+    public function testApplicationActionResponse()
+    {
+        $response = new ApplicationActionResponse([
+            ApplicationActionResponse::FIELD__BODY => 'test',
+            ApplicationActionResponse::FIELD__STATUS => 200,
+            ApplicationActionResponse::FIELD__APPLICATION_ACTION_ID => 'is ok'
+        ]);
+
+        $this->assertEquals('test', $response->getBody());
+        $this->assertEquals(200, $response->getStatus());
+        $this->assertEquals('is ok', $response->getActionId());
     }
 }

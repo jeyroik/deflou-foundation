@@ -26,19 +26,14 @@ trait THasActivityFields
     {
         $fields = [];
         $fieldsConfigs = $this->config[IHasActivityFields::FIELD__FIELDS] ?? [];
+        $names = empty($names) ? array_keys($fieldsConfigs) : $names;
 
-        if (empty($names)) {
-            foreach ($fieldsConfigs as $config) {
-                $fields[$config[IField::FIELD__NAME]] = new Field($config);
-            }
-        } else {
-            if (!$this->hasFields(...$names)) {
-                throw new MissedOrUnknown('some fields');
-            }
+        if (!$this->hasFields(...$names)) {
+            throw new MissedOrUnknown('some fields');
+        }
 
-            foreach ($names as $name) {
-                $fields[$name] = new Field($fieldsConfigs[$name]);
-            }
+        foreach ($names as $name) {
+            $fields[$name] = new Field($fieldsConfigs[$name]);
         }
 
         return $fields;
@@ -47,20 +42,18 @@ trait THasActivityFields
     /**
      * @param mixed ...$names
      * @return array
-     * @throws MissedOrUnknown
      */
     public function getFieldsValues(...$names): array
     {
         $fieldsValues = [];
+        
         if (empty($names)) {
-            $fields = $this->getFields();
-            foreach ($fields as $field) {
-                $fieldsValues[$field->getName()] = $field->getValue();
-            }
-        } else {
-            foreach ($names as $name) {
-                $fieldsValues[$name] = $this->getFieldValue($name);
-            }
+            $fields = $this->config[IHasActivityFields::FIELD__FIELDS] ?? [];
+            $names = array_keys($fields);
+        }
+
+        foreach ($names as $name) {
+            $fieldsValues[$name] = $this->getFieldValue($name);
         }
 
         return $fieldsValues;
