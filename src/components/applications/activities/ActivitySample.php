@@ -2,10 +2,8 @@
 namespace deflou\components\applications\activities;
 
 use deflou\interfaces\applications\activities\IActivitySample;
-use extas\components\fields\THasFields;
 use extas\components\players\THasPlayer;
 use extas\components\samples\Sample;
-use extas\components\THasClass;
 use extas\components\THasType;
 
 /**
@@ -18,15 +16,7 @@ class ActivitySample extends Sample implements IActivitySample
 {
     use THasPlayer;
     use THasType;
-    use THasFields;
-
-    /**
-     * @return string
-     */
-    public function getSubjectForFields(): string
-    {
-        return $this->getSubjectForExtension() . '.' . $this->getName();
-    }
+    use THasActivityFields;
 
     /**
      * @return string
