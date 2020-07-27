@@ -1,11 +1,10 @@
 <?php
-namespace tests;
+namespace tests\foundation\triggers;
 
 use deflou\components\applications\activities\Activity;
 use deflou\components\applications\activities\ActivitySample;
 use deflou\components\applications\Application;
 use deflou\components\applications\ApplicationSample;
-use deflou\components\triggers\TriggerResponse;
 use deflou\components\triggers\TriggerSample;
 use deflou\components\triggers\TriggerStateHistory;
 use deflou\components\triggers\Trigger;
@@ -14,7 +13,6 @@ use extas\interfaces\samples\parameters\ISampleParameter;
 use extas\components\repositories\TSnuffRepositoryDynamic;
 use extas\components\THasMagicClass;
 use extas\components\plugins\PluginRepository;
-use extas\components\players\Player;
 use extas\components\players\PlayerRepository;
 use extas\components\plugins\TSnuffPlugins;
 use extas\components\samples\parameters\SampleParameter;
@@ -44,8 +42,7 @@ class CoreTest extends TestCase
             ['applications', 'name', Application::class],
             ['activitiesSamples', 'name', ActivitySample::class],
             ['activities', 'name', Activity::class],
-            ['triggers', 'name', Trigger::class],
-            ['triggersResponses', 'name', TriggerResponse::class],
+            ['triggers', 'name', Trigger::class]
         ]);
         $this->registerSnuffRepos([
             'playerRepository' => PlayerRepository::class,
