@@ -7,6 +7,7 @@ use deflou\components\triggers\events\ApplicationEvent;
 use deflou\components\triggers\events\THasApplicationEvent;
 use deflou\components\triggers\THasTrigger;
 use deflou\components\triggers\Trigger;
+use deflou\interfaces\triggers\actions\IApplicationAction;
 use deflou\interfaces\triggers\actions\IHasApplicationAction;
 use deflou\interfaces\triggers\events\IApplicationEvent;
 use deflou\interfaces\triggers\events\IHasApplicationEvent;
@@ -101,7 +102,7 @@ class TriggerTest extends TestCase
         $this->assertEquals('test.sample', $event->getApplicationSampleName());
         $this->assertEquals('test', $event->getSource());
         $this->assertEquals(['test' => 'is ok'], $event->getSourceParameters());
-        $this->assertEquals(['test' => 'is ok again'], $event->getArtifatcsParameters());
+        $this->assertEquals(['test' => 'is ok again'], $event->getArtifactsParameters());
     }
 
     public function testApplicationAction()
@@ -129,7 +130,7 @@ class TriggerTest extends TestCase
             }
         };
 
-        $this->assertInstanceOf(IHasApplicationAction::class, $item->getApplicationAction());
+        $this->assertInstanceOf(IApplicationAction::class, $item->getApplicationAction());
 
         $action = $item->getApplicationAction();
         $this->assertEquals('test.sample', $action->getApplicationSampleName());
