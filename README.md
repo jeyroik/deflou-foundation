@@ -10,3 +10,5 @@
 # Описание
 
 DeFlou foundation package.
+
+Содержит базовые модели для DeFlou.
