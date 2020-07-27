@@ -195,7 +195,7 @@ class ApplicationTest extends TestCase
     {
         $sample = new ActivitySample();
 
-        $this->expectExceptionMessage('Missed or unknown field "test"');
+        $this->expectExceptionMessage('Missed or unknown some fields');
         $sample->getFields('test');
     }
 }
