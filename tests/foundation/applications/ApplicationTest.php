@@ -171,6 +171,24 @@ class ApplicationTest extends TestCase
             ],
             $sample->getFieldsValues('add-unknown-1', 'add-unknown-2')
         );
+
+        $this->assertEquals(
+            [
+                'set-unknown-1' => 'is ok',
+                'set-unknown-2' => 'is ok',
+                'add-unknown-1' => 'is ok',
+                'add-unknown-2' => 'is ok',
+                'add-unknown-3' => 'is ok',
+                'add-unknown-4' => 'is ok',
+            ],
+            $sample->getFieldsValues()
+        );
+
+        $sample->setFieldsValues([
+            'set-unknown-1' => 'is ok again'
+        ]);
+
+        $this->assertEquals('is ok again', $sample->getFieldValue('set-unknown-1'));
     }
 
     public function testActivitySampleAddExistedField()
