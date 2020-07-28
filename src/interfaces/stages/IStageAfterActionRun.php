@@ -18,6 +18,7 @@ interface IStageAfterActionRun extends IHasTriggerObject, IHasApplicationEvent, 
 
     /**
      * @param IApplicationActionResponse $response
+     * @return IApplicationActionResponse
      */
-    public function __invoke(IApplicationActionResponse $response): void;
+    public function __invoke(IApplicationActionResponse $response): IApplicationActionResponse;
 }
